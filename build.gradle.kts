@@ -33,10 +33,13 @@ configurations["implementation"].extendsFrom(shadowImplementation)
 dependencies {
     shadowImplementation(kotlin("stdlib"))
     compileOnly("org.spigotmc:spigot-api:$pluginVersion-R0.1-SNAPSHOT")
+    implementation("net.dv8tion:JDA:5.0.0-beta.12") {
+        exclude(module = "opus-java") // opus-javaモジュールを除外してサイズを削減
+    }
 }
 
 configure<BukkitPluginDescription> {
-    main = "@group@.Main"
+    main = "com.github.Ringoame196.Main"
     version = pluginVersion
     apiVersion = "1." + pluginVersion.split(".")[1]
     /*
@@ -55,9 +58,9 @@ configure<BukkitPluginDescription> {
 tasks.withType<ShadowJar> {
     configurations = listOf(shadowImplementation)
     archiveClassifier.set("")
-    relocate("kotlin", "@group@.libs.kotlin")
-    relocate("org.intellij.lang.annotations", "@group@.libs.org.intellij.lang.annotations")
-    relocate("org.jetbrains.annotations", "@group@.libs.org.jetbrains.annotations")
+    relocate("kotlin", "com.github.Ringoame196.libs.kotlin")
+    relocate("org.intellij.lang.annotations", "com.github.Ringoame196.libs.org.intellij.lang.annotations")
+    relocate("org.jetbrains.annotations", "com.github.Ringoame196.libs.org.jetbrains.annotations")
 }
 
 tasks.named("build") {
