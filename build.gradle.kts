@@ -8,7 +8,7 @@ import java.net.ConnectException
 import java.net.URL
 
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.8.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.1"
     id("com.github.ben-manes.versions") version "0.41.0"
     id("com.palantir.git-version") version "0.12.3"
@@ -25,6 +25,7 @@ repositories {
     mavenCentral()
     maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven(url = "https://oss.sonatype.org/content/groups/public/")
+    maven(url = "https://jitpack.io")
 }
 
 val shadowImplementation: Configuration by configurations.creating
@@ -33,26 +34,20 @@ configurations["implementation"].extendsFrom(shadowImplementation)
 dependencies {
     shadowImplementation(kotlin("stdlib"))
     compileOnly("org.spigotmc:spigot-api:$pluginVersion-R0.1-SNAPSHOT")
-    implementation("net.dv8tion:JDA:5.0.0-beta.12") {
-        exclude(module = "opus-java") // opus-javaモジュールを除外してサイズを削減
-    }
+    implementation(files("libs/Discord Bot API V 5.0.jar"))
 }
 
 configure<BukkitPluginDescription> {
     main = "com.github.Ringoame196.Main"
     version = pluginVersion
     apiVersion = "1." + pluginVersion.split(".")[1]
-    /*
-    コマンド追加用
+    depend = listOf("DiscordBotAPI")
+
     commands {
-        register("test") {
+        register("testd") {
         description = "This is a test command!"
-        aliases = listOf("t")
-        permission = "testplugin.test"
-        usage = "Just run the command!"
         }
     }
-    */
 }
 
 tasks.withType<ShadowJar> {
